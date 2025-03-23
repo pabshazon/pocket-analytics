@@ -1,0 +1,23 @@
+services:
+  hive-metastore:
+    image: apache/hive:4.0.1
+    ports:
+      - "9083:9083"
+    environment:
+      SERVICE_NAME: metastore
+      DB_DRIVER: derby
+      SERVICE_OPTS: "-Xmx1G"
+
+  spark-pipeline:
+    build:
+      context: ${POCKET_ANALYTICS_PATH}/service/compute/spark/transform/pipeline/0.raw-2-DW/spark/0.raw-2-raw_DL
+      dockerfile: Dockerfile
+    volumes:
+      - ${POCKET_ANALYTICS_PATH}/service/compute/spark/transform/pipeline/0.raw-2-DW/spark/0.raw-2-raw_DL:/pyspark/pipeline/raw-2-raw_DL
+      - ${POCKET_ANALYTICS_PATH}/service/hive/hive-site.xml:/spark/conf/hive-site.xml:ro
+    working_dir: /pyspark/pipeline/raw-2-raw_DL
+    environment:
+      - SPARK_MODE=master
+      - HIVE_METASTORE_URIS=thrift://hive-metastore:9083
+    depends_on:
+      - hive-metastore
