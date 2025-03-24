@@ -1,0 +1,6 @@
+INFO: Service started at 2025-01-01T10:00:00
+ERROR: Unable to connect to database
+DEBUG: Connection retry logic triggered
+INFO: User login successful
+ERROR: Disk space threshold exceeded
+WARN: Possible memory leak detected

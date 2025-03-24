@@ -1,0 +1,2 @@
+ERROR: Unable to connect to database
+ERROR: Disk space threshold exceeded
